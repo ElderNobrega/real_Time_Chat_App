@@ -16,8 +16,9 @@
     "url": "https://github.com/ElderNobrega/Full_Stack_Assignment/issues"
   },
   "dependencies": {
-    "socket.io": "*",
-    "express": "*"
+    "ejs": "^3.0.1",
+    "express": "*",
+    "socket.io": "*"
   },
   "homepage": "https://github.com/ElderNobrega/Full_Stack_Assignment#readme"
 }
