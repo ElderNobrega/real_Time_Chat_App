@@ -12,8 +12,21 @@ app.set('view engine', 'html');
 
 console.log('Server running...');
 
-app.set('/', (req, res) => {
+app.use('/', (req, res) => {
     res.render('index.html');
+});
+
+let messages = [];
+
+io.on('connection', socket =>{
+    console.log(`Socket connected: ${socket.id}`)
+
+    socket.emit('previousMessages', messages)
+
+    socket.on('sendMessage', data => {
+        messages.push(data);
+        socket.broadcast.emit('receivedMessage', data);
+    });
 });
 
 server.listen(3000);
