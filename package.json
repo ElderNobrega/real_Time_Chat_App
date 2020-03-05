@@ -1,0 +1,23 @@
+{
+  "name": "full_stack_assignment",
+  "version": "1.0.0",
+  "description": "This is a repo for full stack assignment 6th semester",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElderNobrega/Full_Stack_Assignment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElderNobrega/Full_Stack_Assignment/issues"
+  },
+  "dependencies": {
+    "socket.io": "*",
+    "express": "*"
+  },
+  "homepage": "https://github.com/ElderNobrega/Full_Stack_Assignment#readme"
+}
