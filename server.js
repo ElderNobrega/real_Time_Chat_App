@@ -17,13 +17,13 @@ app.use('/', (req, res) => {
     res.render('index.html');
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is up on port ${port}`)
 });
 
 let messages = [];
 
-io.on('connection', socket =>{
+io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
 
     socket.emit('previousMessages', messages)
