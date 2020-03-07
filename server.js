@@ -5,6 +5,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
+const {generateMessage} = require('./utils/message.js');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'public'));
@@ -28,9 +29,14 @@ io.on('connection', (socket) => {
 
     socket.emit('previousMessages', messages)
 
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+
+
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new User Joined'));    
+
     socket.on('sendMessage', data => {
         messages.push(data);
-        socket.broadcast.emit('receivedMessage', data);
+        socket.broadcast.emit('receivedMessage', generateMessage(data.author, data.message));
     });
 });
 
