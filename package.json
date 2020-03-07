@@ -22,6 +22,7 @@
   "dependencies": {
     "ejs": "^3.0.1",
     "express": "*",
+    "moment": "^2.24.0",
     "socket.io": "*"
   },
   "homepage": "https://github.com/ElderNobrega/Full_Stack_Assignment#readme"
