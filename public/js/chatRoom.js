@@ -19,6 +19,25 @@ var socket = io();
             })
         });
 
+        socket.on('disconnect', function() {
+            console.log('Disconected from the server');
+        })
+
+        socket.on('updateUsersList', function(users) {
+            let ol = document.createElement('ol');
+
+            users.forEach(function (user) {
+                let li = document.createElement('li')
+                li.innerHTML = user;
+                ol.appendChild(li);
+            });
+            
+            let userList = document.querySelector('#usersOnline');
+            userList.innerHTML = '';
+            userList.appendChild(ol);
+
+        });
+
         function renderMessage(message) {
             /*const template = document.querySelector('message-template').innerHTML;
             const html = Mustache.render(template);
@@ -52,18 +71,15 @@ var socket = io();
         $('#chat').submit(function(event){
             event.preventDefault();
 
-            var author = $('input[name=username]').val();
             var message = $('input[name=message]').val();
 
-            if (author.length && message.length) {
+            if (message.length) {
                 var msgObject = {
-                    author: author,
                     message: message,
                     createdAt: new Date().getTime()
                 };
 
                 socket.emit('createMessage', msgObject);
+            };
+        });
 
-                //socket.emit('sendMessage', msgObject);
-            }
-        })

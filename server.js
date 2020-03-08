@@ -7,6 +7,8 @@ const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
 const {generateMessage} = require('./utils/message.js');
 const {checkString} = require('./utils/checkString');
+const {Users} = require('./utils/users');
+let users = new Users();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'public'));
@@ -32,20 +34,37 @@ io.on('connection', (socket) => {
 
     socket.on('join', (params, callback) => {
         if(!checkString(params.name) || !checkString(params.room)) {
-            callback("Name and room are required")
+            return callback("Name and room are required")
         }
         socket.join(params.room);
 
+        users.removeUser(socket.id)
+        users.addUser(socket.id, params.name, params.room);
+        
+        io.to(params.room).emit('updateUsersList', users.getUserList(params.room));
+
         socket.emit('newMessage', generateMessage('Admin', `Welcome to ${params.room} chat room!`));
 
-        socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new User Joined'));
+        socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new User has Joined'));
 
         callback();
     });
 
-    socket.on('createMessage', data => {
-        messages.push(data);
-        io.emit('newMessage', generateMessage(data.author, data.message));
+    socket.on('createMessage', (data) => {
+        //messages.push(data);
+        let user = users.getUser(socket.id);
+        if (user && checkString(data.message)) {
+        io.to(user.room).emit('newMessage', generateMessage(user.name, data.message));
+        }
+    });
+
+    socket.on('disconnect', () => {
+        let user = users.removeUser(socket.id);
+
+        if (user) {
+            io.to(user.room).emit('updateUsersList', users.getUserList(user.room));
+            io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left ${user.room} chat room`));
+        }
     });
 });
 
