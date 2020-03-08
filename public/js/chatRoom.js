@@ -5,6 +5,20 @@ var socket = io();
             msg.scrollIntoView();
         }
 
+        socket.on('connect', function() {
+            let searchQuery = window.location.search.substring(1);
+            let params = JSON.parse('{"' + decodeURI(searchQuery).replace(/&/g, '","').replace(/\+/g, ' ').replace(/=/g,'":"') + '"}');
+            
+            socket.emit('join', params, function(err) {
+                if (err) {
+                    alert(err);
+                    window.location.href = '/';
+                } else {
+                    console.log('No Error occur');
+                }
+            })
+        });
+
         function renderMessage(message) {
             /*const template = document.querySelector('message-template').innerHTML;
             const html = Mustache.render(template);
