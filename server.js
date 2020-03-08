@@ -34,9 +34,9 @@ io.on('connection', (socket) => {
 
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new User Joined'));    
 
-    socket.on('sendMessage', data => {
+    socket.on('createMessage', data => {
         messages.push(data);
-        socket.broadcast.emit('receivedMessage', generateMessage(data.author, data.message));
+        io.emit('newMessage', generateMessage(data.author, data.message));
     });
 });
 

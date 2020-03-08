@@ -1,8 +1,10 @@
+const moment = require('moment');
+
 let generateMessage = (author, message) => {
     return {
         author,
         message,
-        createdAt: new Date().getTime
+        createdAt: moment().valueOf()
     };
 };
 

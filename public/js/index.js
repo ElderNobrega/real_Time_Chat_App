@@ -1,18 +1,39 @@
 var socket = io();
-
-        function renderMessage(message) {
-            $('.messages').append('<div class="message"><strong>'+ message.author + '</strong>: ' + message.message + '</div>')
+        
+        function scrollDown() {
+            let msg = document.querySelector('#message').lastElementChild;
+            msg.scrollIntoView();
         }
 
-        socket.on('previousMessages', function(messages) {
-            for(message of messages) {
-                renderMessage(message);
-            }
-        });
+        function renderMessage(message) {
+            /*const template = document.querySelector('message-template').innerHTML;
+            const html = Mustache.render(template);
+            const div = document.createElement('div');
 
-        socket.on('receivedMessage', function(message){
-            renderMessage(message);
-        });
+            div.innerHTML = html;
+
+            $('.messages').appendChild(div);
+            */
+            const formattedTime = moment(message.createdAt).format('LT');
+            $('#message').append('<li><strong>'+ message.author + '</strong>: ' + message.message + " "+ formattedTime+ '</li>')
+            
+        }
+
+        socket.on('newMessage', function(message){
+            //renderMessage(message);
+            const template = document.querySelector('#message-template').innerHTML;
+            const formattedTime = moment(message.createdAt).format('LT');
+            const html = Mustache.render(template, {
+                author: message.author,
+                message: message.message,
+                createdAt: formattedTime   
+            });
+            let li = $('#message').append(html);
+            $('ol[id=message]').add(li);
+            scrollDown();
+            //let li = $('#message').append('<li><strong>' + message.author + '</strong> ' + formattedTime + ': ' + message.message + '</li>' )
+            //$('ol[id=message]').add(li)
+        });     
 
         $('#chat').submit(function(event){
             event.preventDefault();
@@ -27,8 +48,8 @@ var socket = io();
                     createdAt: new Date().getTime()
                 };
 
-                renderMessage(msgObject);
+                socket.emit('createMessage', msgObject);
 
-                socket.emit('sendMessage', msgObject);
+                //socket.emit('sendMessage', msgObject);
             }
         })
