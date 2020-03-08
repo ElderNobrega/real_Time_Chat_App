@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat Room - Socket.io</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <div class="chat-main">
+        <ol id="message"></ol>
+        <div class="chat-footer">
+            <form id="chat">
+                <input type="text" name="username" placeholder="Type your nickname">
+                <input type="text" name="message" placeholder="Type your message">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script id='message-template' type="text/template">
+        <li class='text'>
+            <div class='message-title'>
+                <h4>{{author}}</h4>
+                <span>{{createdAt}}</span>
+            </div>
+            <div class='message-body'>
+                <p>{{message}}</p>
+            </div>
+        </li>
+    </script>
+
+    <script type='text/javascript' src="/js/chatRoom.js"></script>
+    <script type='text/javascript' src="/js/libs/moment.js"></script>
+    <script type='text/javascript' src="/js/libs/mustache.js"></script>
+</body>
+</html>

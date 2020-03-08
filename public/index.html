@@ -4,40 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chat Room - Socket.io</title>
+    <title>Chat Room</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
-<body>
-
-    <div class="chat-main">
-        <ol id="message"></ol>
-        <div class="chat-footer">
-            <form id="chat">
-                <input type="text" name="username" placeholder="Type your nickname">
-                <input type="text" name="message" placeholder="Type your message">
-                <button type="submit">Send</button>
-            </form>
+<body class="center">
+    <div class="center-form"></div>
+    <form action="/chatRoom.html">
+        <div class="form-field"><h3>Join Chat</h3></div>
+        <div class="form-field">
+            <label>Nickname: </label>
+            <input type="text" name="name" placeholder="Type your nickname" autofocus>
         </div>
-    </div>
-    <script id='message-template' type="text/template">
-        <li class='text'>
-            <div class='message-title'>
-                <h4>{{author}}</h4>
-                <span>{{createdAt}}</span>
-            </div>
-            <div class='message-body'>
-                <p>{{message}}</p>
-            </div>
-        </li>
-    </script>
-
-    <script type='text/javascript' src="/js/index.js"></script>
-    <script type='text/javascript' src="/js/libs/moment.js"></script>
-    <script type='text/javascript' src="/js/libs/mustache.js"></script>
+        <div class="form-field">
+            <label>Room name:: </label>
+            <input type="text" name="room" placeholder="Type the room you wanna join" autofocus>
+        </div>
+        <div class="form-field">
+            <button>Join</button>
+        </div>
+    </form>
+    
 </body>
 </html>
