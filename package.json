@@ -4,8 +4,7 @@
   "description": "This is a repo for full stack assignment 6th semester",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon server.js"
   },
   "engines": {
     "node": "10.16.3"
@@ -21,9 +20,13 @@
   },
   "dependencies": {
     "ejs": "^3.0.1",
-    "express": "*",
+    "express": "^4.17.1",
     "moment": "^2.24.0",
+    "mongoose": "^5.9.3",
     "socket.io": "*"
   },
-  "homepage": "https://github.com/ElderNobrega/Full_Stack_Assignment#readme"
+  "homepage": "https://github.com/ElderNobrega/Full_Stack_Assignment#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }

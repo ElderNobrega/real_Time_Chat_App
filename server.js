@@ -1,7 +1,12 @@
 const express = require('express');
+//connect to DB
+const  connectDB = require('./DB/connection');
 const path = require('path');
 
 const app = express();
+//connect to DB
+connectDB();
+
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
