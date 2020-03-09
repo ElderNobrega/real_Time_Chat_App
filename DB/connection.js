@@ -4,7 +4,7 @@ const URI = "mongodb+srv://Alan123:Alan123@fscluster-15amg.mongodb.net/test?retr
 
 const connectDB = async() => {
     await mongoose.connect(URI, { 
-        useNewUrlParser: true, useNewUrlParser: true 
+        useNewUrlParser: true, useUnifiedTopology: true
     });
     console.log('mDB Atlas connected..!');
 };
