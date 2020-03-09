@@ -39,14 +39,6 @@ var socket = io();
         });
 
         function renderMessage(message) {
-            /*const template = document.querySelector('message-template').innerHTML;
-            const html = Mustache.render(template);
-            const div = document.createElement('div');
-
-            div.innerHTML = html;
-
-            $('.messages').appendChild(div);
-            */
             const formattedTime = moment(message.createdAt).format('LT');
             $('#message').append('<li><strong>'+ message.author + '</strong>: ' + message.message + " "+ formattedTime+ '</li>')
             
