@@ -15,6 +15,13 @@ const {checkString} = require('./utils/checkString');
 const {Users} = require('./utils/users');
 let users = new Users();
 
+// Alan testing code
+// app.get('/', function (req, res) {
+//     res.send('Hello World!')
+//   })
+
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'public'));
 app.engine('html', require('ejs').renderFile);
