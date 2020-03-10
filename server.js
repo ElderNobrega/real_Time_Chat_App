@@ -15,11 +15,13 @@ const {checkString} = require('./utils/checkString');
 const {Users} = require('./utils/users');
 let users = new Users();
 
-// Alan testing code
-// app.get('/', function (req, res) {
-//     res.send('Hello World!')
+// 8 Express Api - testing code - Alan
+// app.get('/api/history', function (req, res) {
+//     res.send('Chat History -  Returns a JSON list of chat here')
 //   })
-
+// app.post('/api/eventlog', function (req, res) {
+//     res.send('Chat History by Room Name - Return a JSON list of chat history for specific room name here')
+// })
 
 
 app.use(express.static(path.join(__dirname, 'public')));
