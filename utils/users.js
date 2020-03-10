@@ -1,9 +1,7 @@
-/*[{
-    id: 'adfadf',
-    name: 'nameee',
-    room: 'node room'
-}]
-*/
+const mongoose = require('mongoose');
+const guest = require('../DB/UserSchema');
+const connectDB = require('../DB/connection');
+
 
 class Users {
     constructor() {
@@ -11,8 +9,21 @@ class Users {
     }
 
     addUser(id, name, room) {
+        connectDB(db => {
+            console.log(name);
+            let guests = new guest({
+                id: new mongoose.Types.ObjectId(),
+                userName: name,
+                room: room,
+                timeStamp: new Date().getTime(),
+                eventLog: 'User connected'
+            });
+            guests.save();
+        });
+
         let user = {id, name, room};
         this.users.push(user)
+        console.log(user)
         return user;
     }
 
