@@ -2,9 +2,9 @@ var mongoonse = require('mongoose');
 var Schema = mongoonse.Schema;
 
 var UserSchema = new Schema ({
-    userId: Any,
-    userName: Any,
-    room: Any,
+    id: mongoose.Schema.Types.ObjectId,
+    userName: String,
+    room: String,
     timeStamp: Date,
     eventLog: String
 });

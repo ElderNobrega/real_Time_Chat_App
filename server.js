@@ -1,19 +1,22 @@
 const express = require('express');
-//connect to DB
-const  connectDB = require('./DB/connection');
 const path = require('path');
-
 const app = express();
+
 //connect to DB
-connectDB();
+var mongoonse = require('mongoose');
+const  connectDB = require('./DB/connection');
+//connect to DB
+connectDB()
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
 const {generateMessage} = require('./utils/message.js');
 const {checkString} = require('./utils/checkString');
-const {Users} = require('./utils/users');
-let users = new Users();
+const users = require('./DB/UserSchema');
+const msg = require('./DB/MessageSchema');
+
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'public'));
@@ -30,9 +33,26 @@ server.listen(port, () => {
     console.log(`Server is up on port ${port}`)
 });
 
-let messages = [];
+//MongoDB
+// Get users
+/*
+app.get('/users', function (req, res) {
+    console.log('getting all users');
+    users.find({}).exec(function (err, users) {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(res.json(users))
+        }
+    })
+})
+*/
+
+const guest = {};
 
 io.on('connection', (socket) => {
+
+
     console.log(`Socket connected: ${socket.id}`)
 
     socket.emit('previousMessages', messages)    
@@ -41,10 +61,21 @@ io.on('connection', (socket) => {
         if(!checkString(params.name) || !checkString(params.room)) {
             return callback("Name and room are required")
         }
+
+        guest[socket.id] = {name: params.name, room: params.room}
+
+        new users({
+            id = mongoonse.Types.ObjectId(),
+            userName: params.name,
+            room: params.room,
+            timeStamp: new Date().getTime(),
+            eventLog: String
+        })
+
         socket.join(params.room);
 
-        users.removeUser(socket.id)
-        users.addUser(socket.id, params.name, params.room);
+        //users.removeUser(socket.id)
+        //users.addUser(socket.id, params.name, params.room);
         
         io.to(params.room).emit('updateUsersList', users.getUserList(params.room));
 
@@ -56,7 +87,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (data) => {
-        //messages.push(data);
         let user = users.getUser(socket.id);
         if (user && checkString(data.message)) {
         io.to(user.room).emit('newMessage', generateMessage(user.name, data.message));
