@@ -9,7 +9,7 @@ class Users {
     }
 
     addUser(id, name, room) {
-        connectDB(db => {
+        connectDB.then(db => {
             console.log(name);
             let guests = new guest({
                 id: new mongoose.Types.ObjectId(),
