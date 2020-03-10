@@ -70,8 +70,8 @@ var socket = io();
                     message: message,
                     createdAt: new Date().getTime()
                 };
-
                 socket.emit('createMessage', msgObject);
+                $('input[name=message]').val('');
             };
         });
 
