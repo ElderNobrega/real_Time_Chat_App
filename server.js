@@ -18,6 +18,13 @@ const msg = require('./DB/MessageSchema');
 
 
 
+// Alan testing code
+// app.get('/', function (req, res) {
+//     res.send('Hello World!')
+//   })
+
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'public'));
 app.engine('html', require('ejs').renderFile);
