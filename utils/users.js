@@ -8,7 +8,7 @@ class Users {
         this.users = [];
     }
 
-    addUser(id, name, room) {
+    addUser(id, name, room, event) {
         connectDB.then(db => {
             console.log(name);
             let guests = new guest({
@@ -16,7 +16,7 @@ class Users {
                 userName: name,
                 room: room,
                 timeStamp: new Date().getTime(),
-                eventLog: 'User connected'
+                eventLog: event
             });
             guests.save();
         });
@@ -28,6 +28,9 @@ class Users {
     }
 
     getUserList(room) {
+        connectDB.then(db => {
+            
+        })
         let users = this.users.filter((user) => user.room === room);
         let namesArr = users.map((user) => user.name);  
         return namesArr;

@@ -17,6 +17,14 @@ var socket = io();
                     console.log('No Error occur');
                 }
             })
+            socket.emit('new-user', params, function(err) {
+                if (err) {
+                    alert(err);
+                    window.location.href = '/';
+                } else {
+                    console.log('No Error occur');
+                }
+            })
         });
 
         socket.on('disconnect', function() {
