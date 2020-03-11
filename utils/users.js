@@ -28,9 +28,6 @@ class Users {
     }
 
     getUserList(room) {
-        connectDB.then(db => {
-            
-        })
         let users = this.users.filter((user) => user.room === room);
         let namesArr = users.map((user) => user.name);  
         return namesArr;

@@ -8,6 +8,7 @@ const msg = require('./DB/MessageSchema');
 const app = express();
 const userRoute = require('./routes/userRoute')
 const messageRoute = require('./routes/messageRoute')
+const{room, getRooms} = require('./utils/room')
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -43,7 +44,6 @@ server.listen(port, () => {
 
 io.on('connection', (socket) => {
     
-
     socket.on('new-user', (params, callback) => {
         if(!checkString(params.name) || !checkString(params.room)) {
             return callback("Name and room are required")
@@ -66,18 +66,42 @@ io.on('connection', (socket) => {
         if(!checkString(params.name) || !checkString(params.room)) {
             return callback("Name and room are required")
         }
-        socket.join(params.room);
+        socket.join(params.room); 
+
+        room(params.room);
 
         users.removeUser(socket.id)
         users.addUser(socket.id, params.name, params.room, 'User Joined room');
         
         io.to(params.room).emit('updateUsersList', users.getUserList(params.room));
 
+        //io.to(rooms).emit('updateRoomList', rooms);
+        socket.emit('updateRoomList', getRooms());
+        socket.broadcast.emit('updateRoomList', getRooms());
+
         socket.emit('newMessage', generateMessage('Admin', `Welcome to ${params.room} chat room!`));
 
         socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new User has Joined'));
 
         callback();
+    });
+
+    socket.on('leaveRoom', params => {
+        console.log(params.room)
+        socket.to(params.room).emit("newMessage", generateMessage('Admin', `${params.name} has desconnected from ${params.room}!`));
+        socket.emit('newMessage', generateMessage('Admin', `You disconnect from ${params.room} chat room!`));
+        connectDB.then(db => {
+            let guests = new guest({
+                id: new mongoose.Types.ObjectId(),
+                userName: params.name,
+                room: params.room,
+                timeStamp: new Date().getTime(),
+                eventLog: 'User Switching room'
+            });
+            guests.save();
+        }).then(() => {
+            socket.leave(params.room);
+        }).catch(err => console.log(err));
     });
 
     socket.on('createMessage', (data) => {

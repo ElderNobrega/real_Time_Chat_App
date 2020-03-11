@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 <body class ="chat">
@@ -17,14 +17,17 @@
         <h3>Users:</h3> 
         <div id="usersOnline"></div>
     </div>
-    <div>
+    <div class="chat__sidebar">
         <h3>Rooms:</h3>
         <div id="rommsOnline"></div>
+        <br><br>
+        <input type="text" name="roomName" placeholder="Type the room which you want to switch to">
+    <button type="submit" style="background-color: #000000; color: rgb(255, 255, 255); justify-content: center;" onclick="switchRoom()">switch</button>
     </div>
 
-    <div class="chat-main">
-        <ol id="message"></ol>
-        <div class="chat-footer">
+    <div class="chat__main">
+        <ol id="message" class='chat__messages'></ol>
+        <div class="chat__footer">
             <form id="chat">
                 <input type="text" name="message" placeholder="Type your message">
                 <button type="submit">Send</button>
@@ -32,12 +35,12 @@
         </div>
     </div>
     <script id='message-template' type="text/template">
-        <li class='text'>
-            <div class='message-title'>
+        <li class='message'>
+            <div class='message__title'>
                 <h4>{{author}}</h4>
                 <span>{{createdAt}}</span>
             </div>
-            <div class='message-body'>
+            <div class='message__body'>
                 <p>{{message}}</p>
             </div>
         </li>
