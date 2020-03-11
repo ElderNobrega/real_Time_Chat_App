@@ -33,7 +33,7 @@ app.set('view engine', 'html');
 
 console.log('Server running...');
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index.html');
 });
 

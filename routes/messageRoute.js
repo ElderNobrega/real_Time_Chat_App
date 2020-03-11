@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const message = require('../DB/MessageSchema');
+const Message = require('../DB/MessageSchema');
 
 // Add Message
 router.route('/add-message').post((req, res, next) => {
-    message.create(req.body, (err, data) => {
+    Message.create(req.body, (err, data) => {
         if (err) {
             return next(err);
         } else {
@@ -15,7 +15,7 @@ router.route('/add-message').post((req, res, next) => {
 
 // Get All Messages
 router.route('/history').get((req, res) => {
-    message.find((err, data) => {
+    Message.find((err, data) => {
         if (err) {
             return next(err);
         } else {
