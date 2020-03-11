@@ -6,6 +6,8 @@ const path = require('path');
 const guest = require('./DB/UserSchema');
 const msg = require('./DB/MessageSchema');
 const app = express();
+const userRoute = require('./routes/userRoute')
+const messageRoute = require('./routes/messageRoute')
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -14,6 +16,15 @@ const {generateMessage} = require('./utils/message.js');
 const {checkString} = require('./utils/checkString');
 const {Users} = require('./utils/users');
 let users = new Users();
+
+let bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
+app.use('/message', messageRoute);
+app.use('/log', userRoute);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'public'));
